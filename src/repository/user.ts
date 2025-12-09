@@ -3,6 +3,7 @@ import { prisma } from "../lib/prisma.js";
 export class UserRepository{
     async findAllUsers(){
         const users = await prisma.user.findMany(); 
+        return users;
     }
 
     async createUser(email : string, username : string, password : string){
@@ -13,6 +14,16 @@ export class UserRepository{
                 password : password
             }
         })
+        return user;
+    }
+
+    async findUserByEmail(email : string){
+        const user = await prisma.user.findUnique({
+            where : {
+                email : email
+            }
+        });
+
         return user;
     }
 }
